@@ -9,12 +9,17 @@ This project includes a web app where an emergency worker can input a new messag
 The first part of the data pipeline is the Extract, Transform, and Load process. Here, we are reading the dataset, cleaning the data, and then storing it in a SQLite database. The data cleaning is done with the help of Pandas. Then this cleaned data is loaded into the sql lite database.
 
 First, we convert the category attributes to actual category names by applying a tranformation.
+`category_colnames = row.apply(lambda x: x[:-2])`
 
 Then we delete the original categories column from the dataset.
+`del df['categories']`
 
 During the cleaning phase of the data, some exploratory analysis was done. In this analysis, it was known that one of the categories called 'related' had some bad data with respect to classification classes. In this data, we are supposed to deal with 0 and 1 as two classes for each category, but the 'related' category had '2' as well. Understanding that '2' is not 0 so it should be 1, an attempt is made to convert all the 2's within the 'related' class to 1.
+`categories.loc[categories['related'] == 2, 'related'] = 1`
 
-Finally, we combine all these transformations into a single dataframe and save to the SQLite Database.
+Finally, we combine all these transformations into a single dataframe, drop the duplicate records and save to the SQLite Database.
+`Database Name: DisasterResponse.db`
+`Table Name: figure-eight`
 
 
 ### Machine Learning Pipeline
@@ -34,23 +39,21 @@ Finally, we fit the model into our training dataset and once the training is com
 ### Flask App
 Now, we display our results in a Flask web app. Here's the file structure of the project:
 
-- app
-| - template
-| |- master.html  # main page of web app
-| |- go.html  # classification result page of web app
-|- run.py  # Flask file that runs app
-
-- data
-|- disaster_categories.csv  # data to process 
-|- disaster_messages.csv  # data to process
-|- process_data.py
-|- DisasterResponse.db   # database to save clean data to
-
-- models
-|- train_classifier.py
-|- classifier.pkl  # saved model 
-
-- README.md
+.
++-- app
+| +-- template
+| |+-- master.html  # main page of web app
+| |+-- go.html  # classification result page of web app
+| +-- run.py  # Flask file that runs app
++-- data
+|+-- disaster_categories.csv  # data to process 
+|+-- disaster_messages.csv  # data to process
+|+-- process_data.py
+|+-- DisasterResponse.db   # database to save clean data to
++-- models
+|+-- train_classifier.py
+|+-- classifier.pkl  # saved model 
++-- README.md
 
 ### Instructions:
 1. Run the following commands in the project's root directory to set up your database and model.
