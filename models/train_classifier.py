@@ -90,9 +90,17 @@ def build_model():
     text_clf_SGD = Pipeline([
         ('vect', CountVectorizer(ngram_range = (1,2))),
          ('tfidf', TfidfTransformer(use_idf = True)),
-         ('clf', MultiOutputClassifier(SGDClassifier(loss='hinge', penalty='l2', alpha=1e-3, random_state=42, max_iter=5, tol=None)))
+         ('clf', MultiOutputClassifier(SGDClassifier()))
         ])
-    return text_clf_SGD
+
+    parameters_SGD = {
+        'vect__ngram_range': [(1, 2), (1, 3), (1, 4)],
+        'tfidf__use_idf': (True, False),
+        'clf__estimator__alpha': (1e-2, 1e-3, 1e-4, 1e-1),
+        }
+        
+    model = GridSearchCV(text_clf_SGD, param_grid=parameters_SGD, n_jobs = -1, verbose=3, cv=3)
+    return model
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
