@@ -68,18 +68,18 @@ Finally, we fit the model into our training dataset and once the training is com
 ### Flask App
 Now, we display our results in a Flask web app. Here's the file structure of the project:
 
-📦DisasterResponseDataPipeline
- ┣ 📂app
- ┃ ┣ 📂templates
- ┃ ┃ ┣ 📜go.html
- ┃ ┃ ┗ 📜master.html
- ┃ ┗ 📜run.py
- ┣ 📂data
- ┃ ┣ 📜DisasterResponse.db
- ┃ ┣ 📜disaster_categories.csv
- ┃ ┣ 📜disaster_messages.csv
- ┃ ┗ 📜process_data.py
- ┣ 📂models
- ┃ ┣ 📜classifier.pkl
- ┃ ┗ 📜train_classifier.py
- ┗ 📜README.md
+📦DisasterResponseDataPipeline\
+ ┣ 📂app\
+ ┃ ┣ 📂templates\
+ ┃ ┃ ┣ 📜go.html\
+ ┃ ┃ ┗ 📜master.html\
+ ┃ ┗ 📜run.py\
+ ┣ 📂data\
+ ┃ ┣ 📜DisasterResponse.db\
+ ┃ ┣ 📜disaster_categories.csv\
+ ┃ ┣ 📜disaster_messages.csv\
+ ┃ ┗ 📜process_data.py\
+ ┣ 📂models\
+ ┃ ┣ 📜classifier.pkl\
+ ┃ ┗ 📜train_classifier.py\
+ ┗ 📜README.md\
