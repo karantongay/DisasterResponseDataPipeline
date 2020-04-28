@@ -3,6 +3,35 @@
 ## Project Overview:
 This project includes a web app where an emergency worker can input a new message and get classification results in several categories. The web app will also display visualizations of the data.
 
+The project is running live on: http://18.189.26.72/
+
+### Instructions:
+1. Run the following commands in the project's root directory to set up your database and model.
+
+    - To run ETL pipeline that cleans data and stores in database
+        `python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db`
+\
+    ![title](images/clean_data.JPG)
+
+    - To run ML pipeline that trains classifier and saves
+        `python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl`
+\
+    ![title](images/GridSearchCV.JPG)
+\
+    ![title](images/save_model.JPG)    
+
+2. Run the following command in the app's directory to run your web app.
+    `python run.py`
+
+3. Go to http://0.0.0.0:3001/
+\
+    ![title](images/View1.JPG)
+\
+    ![title](images/View2.JPG)
+\
+    ![title](images/View3.JPG)
+
+
 ## Project Details:
 
 ### Extract, Transform and Load (ETL) Process
@@ -18,7 +47,7 @@ During the cleaning phase of the data, some exploratory analysis was done. In th
 `categories.loc[categories['related'] == 2, 'related'] = 1`
 
 Finally, we combine all these transformations into a single dataframe, drop the duplicate records and save to the SQLite Database.
-`Database Name: DisasterResponse.db`
+`Database Name: DisasterResponse.db` \
 `Table Name: figure-eight`
 
 
@@ -39,31 +68,18 @@ Finally, we fit the model into our training dataset and once the training is com
 ### Flask App
 Now, we display our results in a Flask web app. Here's the file structure of the project:
 
-.
-+-- app
-| +-- template
-| |+-- master.html  # main page of web app
-| |+-- go.html  # classification result page of web app
-| +-- run.py  # Flask file that runs app
-+-- data
-|+-- disaster_categories.csv  # data to process 
-|+-- disaster_messages.csv  # data to process
-|+-- process_data.py
-|+-- DisasterResponse.db   # database to save clean data to
-+-- models
-|+-- train_classifier.py
-|+-- classifier.pkl  # saved model 
-+-- README.md
-
-### Instructions:
-1. Run the following commands in the project's root directory to set up your database and model.
-
-    - To run ETL pipeline that cleans data and stores in database
-        `python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db`
-    - To run ML pipeline that trains classifier and saves
-        `python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl`
-
-2. Run the following command in the app's directory to run your web app.
-    `python run.py`
-
-3. Go to http://0.0.0.0:3001/
+📦DisasterResponseDataPipeline
+ ┣ 📂app
+ ┃ ┣ 📂templates
+ ┃ ┃ ┣ 📜go.html
+ ┃ ┃ ┗ 📜master.html
+ ┃ ┗ 📜run.py
+ ┣ 📂data
+ ┃ ┣ 📜DisasterResponse.db
+ ┃ ┣ 📜disaster_categories.csv
+ ┃ ┣ 📜disaster_messages.csv
+ ┃ ┗ 📜process_data.py
+ ┣ 📂models
+ ┃ ┣ 📜classifier.pkl
+ ┃ ┗ 📜train_classifier.py
+ ┗ 📜README.md
