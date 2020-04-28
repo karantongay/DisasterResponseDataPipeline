@@ -8,12 +8,12 @@ The project is running live on: http://18.189.26.72/
 ### Instructions:
 1. Run the following commands in the project's root directory to set up your database and model.
 
-    - To run ETL pipeline that cleans data and stores in database
+    - To run ETL pipeline that cleans data and stores in database\
         `python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db`
 \
     ![title](images/clean_data.JPG)
 
-    - To run ML pipeline that trains classifier and saves
+    - To run ML pipeline that trains classifier and saves\
         `python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl`
 \
     ![title](images/GridSearchCV.JPG)
@@ -37,16 +37,16 @@ The project is running live on: http://18.189.26.72/
 ### Extract, Transform and Load (ETL) Process
 The first part of the data pipeline is the Extract, Transform, and Load process. Here, we are reading the dataset, cleaning the data, and then storing it in a SQLite database. The data cleaning is done with the help of Pandas. Then this cleaned data is loaded into the sql lite database.
 
-First, we convert the category attributes to actual category names by applying a tranformation.
+First, we convert the category attributes to actual category names by applying a tranformation.\
 `category_colnames = row.apply(lambda x: x[:-2])`
 
-Then we delete the original categories column from the dataset.
+Then we delete the original categories column from the dataset.\
 `del df['categories']`
 
-During the cleaning phase of the data, some exploratory analysis was done. In this analysis, it was known that one of the categories called 'related' had some bad data with respect to classification classes. In this data, we are supposed to deal with 0 and 1 as two classes for each category, but the 'related' category had '2' as well. Understanding that '2' is not 0 so it should be 1, an attempt is made to convert all the 2's within the 'related' class to 1.
+During the cleaning phase of the data, some exploratory analysis was done. In this analysis, it was known that one of the categories called 'related' had some bad data with respect to classification classes. In this data, we are supposed to deal with 0 and 1 as two classes for each category, but the 'related' category had '2' as well. Understanding that '2' is not 0 so it should be 1, an attempt is made to convert all the 2's within the 'related' class to 1.\
 `categories.loc[categories['related'] == 2, 'related'] = 1`
 
-Finally, we combine all these transformations into a single dataframe, drop the duplicate records and save to the SQLite Database.
+Finally, we combine all these transformations into a single dataframe, drop the duplicate records and save to the SQLite Database.\
 `Database Name: DisasterResponse.db` \
 `Table Name: figure-eight`
 
