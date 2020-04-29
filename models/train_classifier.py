@@ -29,6 +29,14 @@ def load_data(database_filepath):
     category attribute. Although, to keep it scalable, the
     attribute still persists in the database, just in case if new 
     data comes in the future that is classified as child_alone.
+
+    Args:
+        database_filepath: Path of the database file to access the data.
+
+    Returns:
+        X: The contents of the messages attribute in the data.
+        Y: The classification labels (0/1) for each message (X) in the data.
+        category_names: The classification category names within data.
     """
     # load data from database
     engine = create_engine('sqlite:///' + database_filepath)
@@ -44,6 +52,12 @@ def load_data(database_filepath):
 def tokenize(text):
     """
     This function tokenizes the input text and performs necessary cleaning.
+
+    Args:
+        text: The content within the messages column in the data.
+    
+    Returns:
+        clean_tokens: The cleaned and lemmatized text for each message in 'text' variable.
     """
     url_regex = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
     detected_urls = re.findall(url_regex, text)
@@ -72,19 +86,12 @@ def build_model():
     pipeline were chosen after performing validation tests
     using multiple parameters with GridSearchCV.
     
-    parameters_SGD = {
-     'vect__ngram_range': [(1, 2), (1, 3), (1, 4)],
-     'tfidf__use_idf': (True, False),
-     'clf__estimator__alpha': (1e-2, 1e-3, 1e-4, 1e-1),
-    }
-
-    cv = GridSearchCV(model, param_grid=parameters_SGD, n_jobs = -1)
-    cv.get_params().keys()
-    cv.fit(X_train, y_train)
-    y_pred = cv.predict(X_test)
-    
     SGDClassifier is chosen after testing and tuning other
     classfiers namely, RandomForest, NaiveBayes and k-NN.
+
+    Returns:
+        model: A trained model using SGDClassifier with optimal
+        hyperparameters selected using GridSearchCV.
     
     """
     text_clf_SGD = Pipeline([
@@ -108,6 +115,17 @@ def evaluate_model(model, X_test, Y_test, category_names):
     This function evaluates the new model and generates classification
     report containing precision, recall, f-score and accuracy information
     for individual classes.
+
+    Args:
+        model: The trained model.
+        X_test: The test data containing messages.
+        Y_test: The test data containing the corresponding labels to the messages.
+        category_names: The classification category names within data.
+
+    Returns:
+        Nothing.
+        Prints the classfication report for each category name containing precision,
+        recall, f-score, support and accuracy measures.
     """
     y_pred = model.predict(X_test)
     for x in range(0, len(category_names)):
@@ -119,6 +137,14 @@ def evaluate_model(model, X_test, Y_test, category_names):
 def save_model(model, model_filepath):
     """
     This function packages the trained model into the pickle file.
+
+    Args:
+        model: The trained and evaluated model.
+        model_filepath: The path to save the packaged pickled model.
+
+    Returns:
+        Nothing.
+        Packages the model into pickle file and saves it in the specified path.
     """
     # save the classifier
     with open(model_filepath, 'wb') as fid:
